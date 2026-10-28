@@ -271,7 +271,7 @@ TEST_UNIT(a_print_only_function) {
         TEST_MARK("debug output");
         for (size_t i = 0; i < line_count; i++) {
             printf("line %zu:\n", i + 1);
-            hexdump(lines[i], strlen(lines[i]) + 1);
+            hexdump(stdout, lines[i], strlen(lines[i]) + 1);
         }
     } else {
         // Tests that can only run if we have enough data
@@ -331,7 +331,7 @@ void hexdump(const char *s, size_t maxlen);
 TEST_UNIT(my_test){
     printf("# Character arrays\n");
     const char *s = "This is useful for debugging, I promise.";
-    hexdump(s, strlen(s) + 1);
+    hexdump(stdout, s, strlen(s) + 1);
     
     struct data {
         char key[9];
@@ -342,7 +342,7 @@ TEST_UNIT(my_test){
         .value = "this is a value / and this is a rather short comment"
     };
     printf("# Structures\n");
-    hexdump(&x, sizeof(x));
+    hexdump(stdout, &x, sizeof(x));
     return 0;
 }
 ```
