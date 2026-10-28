@@ -320,7 +320,7 @@ Prints bytes to stdout in a traditional hexdump format.
 ### Signature
 
 ```c
-void hexdump(const char *s, size_t maxlen);
+void hexdump(FILE *stream, const char *s, size_t maxlen);
 ```
 
 ### Example
