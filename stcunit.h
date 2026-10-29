@@ -130,7 +130,7 @@ static int TEST_VERBOSE(void) {
     // Always enable verbose output during development
     return 1;
 #else
-    if (getenv("UNITTEST_VERBOSE")) {
+    if (getenv("STCUNIT_VERBOSE")) {
         return 1;
     }
 #endif
@@ -357,7 +357,7 @@ struct TestRedirect {
  * @return 1=defined, 0=undefined
  */
 static inline int TEST_REDIRECT_CHECK_KEEP_LOGS(void) {
-    if (getenv("UNITTEST_KEEP_LOGS")) {
+    if (getenv("STCUNIT_KEEP_LOGS")) {
         return 1;
     }
     return 0;
