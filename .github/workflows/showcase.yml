@@ -59,9 +59,10 @@ jobs:
               --cobertura coverage.xml \
               --cobertura-pretty \
               --html-single-page \
+              --html-title "STCUNIT Coverage Report" \
               --html-details coverage.html \
               --markdown coverage.md \
-              --markdown-title "STCUNIT Coverage"
+              --markdown-title "STCUNIT Coverage Summary"
 
       - name: Write coverage step summary
         run:
