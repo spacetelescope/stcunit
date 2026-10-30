@@ -59,4 +59,5 @@ jobs:
               --cobertura coverage.xml \
               --cobertura-pretty \
               --markdown coverage.md \
-              --markdown-title "STCUNIT Coverage" >> "$GITHUB_STEP_SUMMARY"
+              --markdown-title "STCUNIT Coverage"
+          cat coverage.md >> $GITHUB_STEP_SUMMARY
