@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "stcunit.h"
 
 TEST_UNIT(pass) {
@@ -199,6 +201,31 @@ TEST_UNIT(get_format_length) {
     TEST_RETURN
 }
 
+TEST_UNIT(hexdump) {
+    const struct __attribute__((packed)) {
+        char c;
+        const char c_note_padding[7];
+        const char c_note[8];
+        int i;
+        const char i_note_padding[4];
+        const char i_note[8];
+        unsigned int ui;
+        const char ui_note_padding[4];
+        const char ui_note[8];
+    } data = {
+        .c = INT8_MAX,
+        .c_note = "INT8",
+        .i = INT32_MAX,
+        .i_note = "INT32",
+        .ui = UINT32_MAX,
+        .ui_note = "UINT32",
+    };
+
+    hexdump(stdout, &data, sizeof(data));
+
+    TEST_RETURN
+}
+
 TEST_SUITE("Showcase") {
     const unit_test tests[] = {
         // Result management
@@ -220,6 +247,7 @@ TEST_SUITE("Showcase") {
         TEST_UNIT_REPR(is_ansi_and_empty),
         TEST_UNIT_REPR(strlen_sans_ansi_codes),
         TEST_UNIT_REPR(get_format_length),
+        TEST_UNIT_REPR(hexdump),
     };
     TEST_SUITE_RUN(tests)
     TEST_SUITE_RETURN
