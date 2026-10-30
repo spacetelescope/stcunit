@@ -1,3 +1,5 @@
+coverage.xml
+coverage.md
 cmake-build*
 build*
 .idea
