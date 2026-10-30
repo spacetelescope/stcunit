@@ -10,10 +10,6 @@ option(ALWAYS_VERBOSE "stcunit output is permanently verbose" OFF)
 option(WITH_FORTIFY_SOURCE "Enable FORTIFY_SOURCE_LEVEL" 0)
 option(WITH_ASAN "Enable Address Sanitizer")
 
-if (WITH_FORTIFY_SOURCE GREATER 0)
-    #
-endif()
-
 add_compile_options(-Wall -Wextra -pedantic -fvisibility=hidden)
 
 if(ALWAYS_VERBOSE)
