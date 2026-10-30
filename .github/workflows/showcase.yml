@@ -34,7 +34,6 @@ jobs:
               -DWITH_FORTIFY_SOURCE=YES \
               -DWITH_ASAN=YES
           make
-          
 
       - name: Run showcase
         run: |
