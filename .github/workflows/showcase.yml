@@ -1,0 +1,74 @@
+name: Showcase
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Install gcovr
+        run:
+          python3 -m pip install gcovr
+
+      - name: Build showcase
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Debug \
+              -DWITH_COVERAGE=YES \
+              -DWITH_FORTIFY_SOURCE=YES \
+              -DWITH_ASAN=YES
+          make
+
+      - name: Run showcase
+        run: |
+          set +e
+          ./build/stcunit_showcase
+          if (( $? > 1 )); then
+              false
+          fi
+
+      - name: Run showcase (coverage)
+        run: |
+          set +e
+          export STCUNIT_VERBOSE=1
+          ./build/stcunit_showcase_coverage
+          if (( $? > 1 )); then
+              false
+          fi
+
+      - name: Generate coverage report
+        run: |
+          gcovr -r . --exclude build \
+              --cobertura coverage.xml \
+              --cobertura-pretty \
+              --html-single-page \
+              --html-title "STCUNIT Coverage Report" \
+              --html-details coverage.html \
+              --markdown coverage.md \
+              --markdown-title "STCUNIT Coverage Summary"
+
+      - name: Write coverage step summary
+        run:
+          cat coverage.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage HTML report
+        uses: actions/upload-artifact@v7
+        with:
+          path: coverage.html
+          archive: false
