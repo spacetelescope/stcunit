@@ -381,23 +381,23 @@ static inline void TEST_SUITE_MAKE_LOG_DIR(void) {
         (void) TEST_LOCAL_CHECKPOINT; \
         int TEST_LOCAL_CHECKPOINT_CALL_COUNT = 0; \
         (void) TEST_LOCAL_CHECKPOINT_CALL_COUNT; \
-        char TEST_LOCAL_LOG_DIR[4096] = {0}; \
+        char TEST_LOCAL_WORKSPACE_DIR[4096] = {0}; \
         struct TestRedirect TEST_LOCAL_REDIRECT = {0}; \
         snprintf(TEST_LOCAL_REDIRECT.unit_suite, sizeof(TEST_LOCAL_REDIRECT.unit_suite), "%s", TEST_SUITE_NAME); \
         snprintf(TEST_LOCAL_REDIRECT.unit_name, sizeof(TEST_LOCAL_REDIRECT.unit_name), "%s", __func__); \
-        snprintf(TEST_LOCAL_LOG_DIR, sizeof(TEST_LOCAL_LOG_DIR), "%.*s/%.*s", \
-            (int) ((sizeof(TEST_LOCAL_LOG_DIR) - 2) / 2), TEST_SUITE_LOG_DIR, \
-            (int) ((sizeof(TEST_LOCAL_LOG_DIR) - 2) / 2), TEST_LOCAL_REDIRECT.unit_name); \
-        if (mkdir(TEST_LOCAL_LOG_DIR, 0700) < 0 && errno != EEXIST) { \
-            fprintf(stderr, "%s: unable to create unit test workspace directory (%s)\n", TEST_LOCAL_LOG_DIR, strerror(errno)); \
+        snprintf(TEST_LOCAL_WORKSPACE_DIR, sizeof(TEST_LOCAL_WORKSPACE_DIR), "%.*s/%.*s", \
+            (int) ((sizeof(TEST_LOCAL_WORKSPACE_DIR) - 2) / 2), TEST_SUITE_LOG_DIR, \
+            (int) ((sizeof(TEST_LOCAL_WORKSPACE_DIR) - 2) / 2), TEST_LOCAL_REDIRECT.unit_name); \
+        if (mkdir(TEST_LOCAL_WORKSPACE_DIR, 0700) < 0 && errno != EEXIST) { \
+            fprintf(stderr, "%s: unable to create local unit test workspace directory (%s)\n", TEST_LOCAL_WORKSPACE_DIR, strerror(errno)); \
             exit(EXIT_FAILURE); \
         } \
-        if (chdir(TEST_LOCAL_LOG_DIR) < 0) { \
-            fprintf(stderr, "%s: unable to enter unit test workspace directory (%s)\n", TEST_LOCAL_LOG_DIR, strerror(errno)); \
+        if (chdir(TEST_LOCAL_WORKSPACE_DIR) < 0) { \
+            fprintf(stderr, "%s: unable to enter local unit test workspace directory (%s)\n", TEST_LOCAL_WORKSPACE_DIR, strerror(errno)); \
             exit(EXIT_FAILURE); \
         } \
         snprintf(TEST_LOCAL_REDIRECT.filename, sizeof(TEST_LOCAL_REDIRECT.filename), "%.*s/_capture.log", \
-            (int) sizeof(TEST_LOCAL_REDIRECT.filename) - 15, TEST_LOCAL_LOG_DIR); \
+            (int) sizeof(TEST_LOCAL_REDIRECT.filename) - 15, TEST_LOCAL_WORKSPACE_DIR); \
         printf(TEST_TERM_COLOR_BRIGHT_BLUE "  UNIT" TEST_TERM_COLOR_RESET TEST_TERM_COLOR_BRIGHT_WHITE \
                                            " %s... " TEST_TERM_COLOR_RESET, \
             __func__); \
